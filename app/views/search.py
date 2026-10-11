@@ -61,10 +61,10 @@ with tab_search:
 
     q = st.text_area("What are you looking for?", key="query_text", height=80, placeholder=EXAMPLES[0])
     cols = st.columns([1, 1, 4])
-    if cols[0].button("Interpret", type="primary", use_container_width=True):
+    if cols[0].button("Interpret", type="primary", width="stretch"):
         if q.strip():
             st.session_state.parsed = parse_query(q, default_area=_default_area()).model_dump(mode="json")
-    cols[1].button("Try an example", use_container_width=True, on_click=_use_example)
+    cols[1].button("Try an example", width="stretch", on_click=_use_example)
 
     if "parsed" in st.session_state:
         parsed = ParsedQuery.model_validate(st.session_state.parsed)
@@ -169,7 +169,7 @@ with tab_import:
                 rows = parse_tabular(up.getvalue(), up.name)
                 cands, problems = rows_to_candidates(rows, source_label=up.name)
                 st.dataframe(pd.DataFrame([{"name": x.name, "website": x.website, "city": x.location.city if x.location else None}
-                                           for x in cands[:50]]), hide_index=True, use_container_width=True)
+                                           for x in cands[:50]]), hide_index=True, width="stretch")
                 st.caption(f"{len(cands)} usable rows" + (f"; {len(problems)} skipped" if problems else ""))
                 for p in problems[:10]:
                     st.caption("• " + p)
@@ -206,7 +206,7 @@ with tab_import:
             from atlas.models.company import CandidateCompany
             cands = [CandidateCompany.model_validate(x) for x in st.session_state.dir_cands]
             st.dataframe(pd.DataFrame([{"name": x.name, "website": x.website} for x in cands]), hide_index=True,
-                         use_container_width=True)
+                         width="stretch")
             if st.button("Import and research these websites", type="primary"):
                 run_import(cands, url, "directory_page")
                 st.session_state.dir_cands = []
@@ -246,7 +246,7 @@ def progress_panel():
         if runs:
             st.dataframe(pd.DataFrame([{"Source": r["display_name"], "Status": r["status"], "Results": r["result_count"],
                                         "Notes": (r["notes"] or r["error"] or "")[:160]} for r in runs]),
-                         hide_index=True, use_container_width=True)
+                         hide_index=True, width="stretch")
         with st.expander("Activity log", expanded=running):
             for e in jobs.list_events(c, job_id, 40):
                 st.markdown(f"<span class='muted'>{e['ts'][11:19]}</span> {ui.pill(e['level'], 'red' if e['level']=='error' else 'amber' if e['level']=='warning' else 'grey')} {html.escape(e['message'])}",
@@ -291,6 +291,6 @@ with tab_sources:
         "Enabled": bool(p["enabled"]), "Last success": (p["last_success_at"] or "never")[:16],
         "Last results": p["last_result_count"], "Last error": (p["last_error"] or "")[:120],
         "Health": (p["last_health"] or "")[:120], "Coverage": p["coverage"], "Limitations": p["limitations"],
-        "URL": p["source_url"]} for p in rows]), hide_index=True, use_container_width=True,
+        "URL": p["source_url"]} for p in rows]), hide_index=True, width="stretch",
         column_config={"URL": st.column_config.LinkColumn()})
     st.caption("Enable/disable sources and run health checks in Settings → Discovery.")

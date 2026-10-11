@@ -189,7 +189,7 @@ with tab_evid:
     st.dataframe(pd.DataFrame([{"Type": cl["claim_type"], "Value": cl["value"][:120], "Evidence": cl["evidence_snippet"][:200],
                                 "Source": cl["source_url"], "Retrieved": cl["retrieved_at"][:16],
                                 "Extractor": cl["extractor"], "Inference": bool(cl["is_inference"])} for cl in rows]),
-                 hide_index=True, use_container_width=True, column_config={"Source": st.column_config.LinkColumn()})
+                 hide_index=True, width="stretch", column_config={"Source": st.column_config.LinkColumn()})
     st.caption("Every claim is a statement about what a source says, with the URL and retrieval time. "
                "Inferences are labelled.")
 
@@ -198,24 +198,24 @@ with tab_src:
     st.markdown("##### Discovery provenance")
     st.dataframe(pd.DataFrame([{"Provider": s["provider"], "Record": s["external_id"], "Name in source": s["raw_name"],
                                 "Source URL": s["source_url"], "Retrieved": s["retrieved_at"][:16]} for s in d.sources]),
-                 hide_index=True, use_container_width=True, column_config={"Source URL": st.column_config.LinkColumn()})
+                 hide_index=True, width="stretch", column_config={"Source URL": st.column_config.LinkColumn()})
     if d.locations:
         st.markdown("##### Locations")
         st.dataframe(pd.DataFrame([{k: loc[k] for k in ("address", "city", "latitude", "longitude", "location_type",
                                                           "source_provider")} for loc in d.locations]),
-                     hide_index=True, use_container_width=True)
+                     hide_index=True, width="stretch")
     st.markdown("##### Pages researched")
     pages = research.company_pages(c, cid, with_text=False)
     st.dataframe(pd.DataFrame([{"URL": p["url"], "Type": p["page_type"], "HTTP": p["status_code"], "Words": p["word_count"],
                                 "Duplicate": bool(p["is_duplicate"]), "Error": p["error"], "Fetched": p["fetched_at"][:16]}
-                               for p in pages]), hide_index=True, use_container_width=True,
+                               for p in pages]), hide_index=True, width="stretch",
                  column_config={"URL": st.column_config.LinkColumn()})
     st.markdown("##### Field history (values are never silently overwritten)")
-    st.dataframe(pd.DataFrame(companies.field_history(c, cid)), hide_index=True, use_container_width=True)
+    st.dataframe(pd.DataFrame(companies.field_history(c, cid)), hide_index=True, width="stretch")
     hist = assessments.assessment_history(c, cid)
     if hist["qualification"]:
         st.markdown("##### Assessment history")
-        st.dataframe(pd.DataFrame(hist["qualification"]), hide_index=True, use_container_width=True)
+        st.dataframe(pd.DataFrame(hist["qualification"]), hide_index=True, width="stretch")
 
 # ---------------------------------------------------------------- corrections
 with tab_edit:

@@ -34,7 +34,7 @@ bars = alt.Chart(funnel).mark_bar(color=ACCENT, cornerRadiusEnd=4).encode(
     x=alt.X("Companies:Q"), y=alt.Y("Stage:N", sort=alt.SortField("order"), title=None),
     tooltip=["Stage", "Companies"])
 labels = bars.mark_text(align="left", dx=4, color="#0F172A").encode(text="Companies:Q")
-st.altair_chart((bars + labels).properties(height=280), use_container_width=True)
+st.altair_chart((bars + labels).properties(height=280), width="stretch")
 
 
 def rate(n: int, d: int) -> str:
@@ -59,7 +59,7 @@ with left:
             y=alt.Y("Industry:N", sort="-x", title=None), x=alt.X("count():Q", title="Companies"),
             color=alt.Color("Status:N", scale=alt.Scale(domain=["qualified", "needs review", "rejected"],
                                                         range=["#047857", "#B45309", "#B91C1C"])))
-        st.altair_chart(ch.properties(height=300), use_container_width=True)
+        st.altair_chart(ch.properties(height=300), width="stretch")
 with right:
     st.markdown("#### Internship suitability")
     df2 = pd.DataFrame([{"Category": INTERNSHIP_LABELS.get(r["internship_category"] or "", "Not assessed")} for r in rows
@@ -67,19 +67,19 @@ with right:
     if not df2.empty:
         ch2 = alt.Chart(df2).mark_bar(color=ACCENT).encode(y=alt.Y("Category:N", sort="-x", title=None),
                                                            x=alt.X("count():Q", title="Companies"))
-        st.altair_chart(ch2.properties(height=300), use_container_width=True)
+        st.altair_chart(ch2.properties(height=300), width="stretch")
 
 st.markdown("#### Source coverage and quality")
 cov = pd.DataFrame(source_coverage(c))
 if not cov.empty:
     cov["qualified rate"] = (cov["qualified"] / cov["companies"]).map(lambda x: f"{x:.0%}")
     cov["website rate"] = (cov["with_website"] / cov["companies"]).map(lambda x: f"{x:.0%}")
-    st.dataframe(cov, hide_index=True, use_container_width=True)
+    st.dataframe(cov, hide_index=True, width="stretch")
 cs = claim_stats(c)
 if cs:
     st.markdown("#### Evidence collected")
     st.dataframe(pd.DataFrame([{"Claim type": k_, "Claims": v["count"], "Labelled inferences": v["inferences"]}
-                               for k_, v in cs.items()]), hide_index=True, use_container_width=True)
+                               for k_, v in cs.items()]), hide_index=True, width="stretch")
 
 st.markdown("#### Evaluation (from your manual reviews)")
 metrics = compute_metrics(c)
@@ -88,4 +88,4 @@ if all(m.n == 0 for m in metrics):
                "report accuracy figures it has not measured.")
 else:
     st.dataframe(pd.DataFrame([{"Metric": m.label, "Result": m.fmt(), "Reviewed": m.n} for m in metrics]),
-                 hide_index=True, use_container_width=True)
+                 hide_index=True, width="stretch")

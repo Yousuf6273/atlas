@@ -142,4 +142,4 @@ with tab_eval:
                 st.rerun()
     st.markdown("##### Metrics for this job")
     st.dataframe(pd.DataFrame([{"Metric": m.label, "Result": m.fmt()} for m in compute_metrics(c, job_id)]),
-                 hide_index=True, use_container_width=True)
+                 hide_index=True, width="stretch")

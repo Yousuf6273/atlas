@@ -82,7 +82,7 @@ df = pd.DataFrame([{
 
 prog = lambda label: st.column_config.ProgressColumn(label, min_value=0, max_value=100, format="%.0f")  # noqa: E731
 event = st.dataframe(
-    df.drop(columns=["id"]), hide_index=True, use_container_width=True, height=520, on_select="rerun",
+    df.drop(columns=["id"]), hide_index=True, width="stretch", height=520, on_select="rerun",
     selection_mode="multi-row", key="explorer_table",
     column_config={"Website": st.column_config.LinkColumn(display_text=r"https?://(?:www\.)?([^/]+)"),
                    "Fit": prog("Fit score"), "Suitability": prog("Suitability"), "Evidence": prog("Evidence conf."),

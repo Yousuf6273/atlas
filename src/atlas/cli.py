@@ -237,7 +237,8 @@ def cmd_ui(_cfg, args) -> int:
     app = PROJECT_ROOT / "app" / "streamlit_app.py"
     # Run from the project root so .streamlit/config.toml (theme) applies wherever `atlas ui` is called from.
     proc = subprocess.Popen([sys.executable, "-m", "streamlit", "run", str(app), "--server.port", str(port),
-                             "--server.headless", "true", "--browser.gatherUsageStats", "false"], cwd=PROJECT_ROOT)
+                             "--server.headless", "true", "--server.address", "localhost",
+                             "--browser.gatherUsageStats", "false"], cwd=PROJECT_ROOT)
     url = f"http://localhost:{port}"
     try:
         for _ in range(120):  # wait up to ~60 s for the server to come up

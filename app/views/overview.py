@@ -56,7 +56,7 @@ with left:
             "Company": r["name"], "Industry": ui.label_industry(r["primary_industry"]), "Score": r["total_score"],
             "Internship": (r["internship_category"] or "").replace("_", " "), "Contact": r["best_contact"] or "—",
             "Readiness": r["readiness_label"], "id": r["company_id"]} for r in rows])
-        ev = st.dataframe(df.drop(columns=["id"]), hide_index=True, use_container_width=True, on_select="rerun",
+        ev = st.dataframe(df.drop(columns=["id"]), hide_index=True, width="stretch", on_select="rerun",
                           selection_mode="single-row", key="ov_top",
                           column_config={"Score": st.column_config.ProgressColumn(min_value=0, max_value=100, format="%.0f")})
         if ev.selection.rows:

@@ -76,7 +76,7 @@ with tab_all:
                                                                                             "careers_page") if x in set(df["channel"])])
         view = df[df["channel"].isin(ch)] if ch else df
         view = view.assign(verification=view["verification_status"].map(lambda v: EMAIL_STATUS_LABELS.get(v, v)))
-        st.dataframe(view.drop(columns=["verification_status"]), hide_index=True, use_container_width=True,
+        st.dataframe(view.drop(columns=["verification_status"]), hide_index=True, width="stretch",
                      column_config={"source_url": st.column_config.LinkColumn("source"),
                                     "quality_score": st.column_config.ProgressColumn("quality", min_value=0, max_value=100,
                                                                                      format="%.0f")})
@@ -88,7 +88,7 @@ with tab_missing:
         "ct.company_id = co.id AND ct.is_current = 1 AND ct.quality_score > 0 AND ct.channel IN "
         "('email','contact_form','careers_page')) ORDER BY co.name", c)
     st.caption("Relevant companies without a usable channel are kept — they are not dropped from your list.")
-    st.dataframe(miss, hide_index=True, use_container_width=True, column_config={"website": st.column_config.LinkColumn()})
+    st.dataframe(miss, hide_index=True, width="stretch", column_config={"website": st.column_config.LinkColumn()})
     st.markdown("Legitimate next steps: check the website's contact page manually (some use JavaScript forms ATLAS "
                 "cannot read), call the published phone number, use the company's LinkedIn page yourself, or ask for an "
                 "introduction through school or family contacts.")

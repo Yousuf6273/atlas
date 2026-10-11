@@ -35,7 +35,7 @@ with tab_board:
             "Company": r["name"], "Status": OUTREACH_LABELS.get(r["outreach_status"], r["outreach_status"]),
             "Last contacted": r["last_contacted"], "Follow-up": r["follow_up_date"], "Best contact": r["best_contact"],
             "Fit": r["total_score"], "Internship": (r["internship_category"] or "").replace("_", " ")} for r in view]),
-            hide_index=True, use_container_width=True,
+            hide_index=True, width="stretch",
             column_config={"Fit": st.column_config.ProgressColumn(min_value=0, max_value=100, format="%.0f")})
 
 with tab_update:

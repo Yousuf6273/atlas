@@ -79,13 +79,13 @@ with t_p:
         st.markdown("**Skills** — level and a concrete example of something you have actually done (optional).")
         skills_df = st.data_editor(pd.DataFrame([s.model_dump() for s in prof.skills] or [{"name": "", "level": "unspecified",
                                                                                            "evidence": ""}]),
-                                   num_rows="dynamic", use_container_width=True, key="skills_ed",
+                                   num_rows="dynamic", width="stretch", key="skills_ed",
                                    column_config={"level": st.column_config.SelectboxColumn(
                                        options=["unspecified", "learning", "working knowledge", "confident"])})
         st.markdown("**Projects** — real projects only; the first one may be mentioned in detailed emails.")
         proj_df = st.data_editor(pd.DataFrame([p.model_dump() for p in prof.projects] or
                                               [{"title": "", "description": "", "url": ""}]),
-                                 num_rows="dynamic", use_container_width=True, key="proj_ed")
+                                 num_rows="dynamic", width="stretch", key="proj_ed")
         cv_note = st.checkbox("Mention an attached CV in emails", prof.cv_attached_note)
         cv_summary = st.text_area("CV summary (for your reference)", prof.cv_summary, height=80)
         if st.form_submit_button("Save profile", type="primary"):
