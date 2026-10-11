@@ -1,0 +1,63 @@
+# ATLAS example configuration.
+# Copy to config/atlas.toml (git-ignored) and edit. Every key is optional —
+# anything you leave out uses the default shown here. Most of these can also be
+# changed from the dashboard (Settings), which takes precedence over this file.
+
+[paths]
+# data_dir = "~/atlas-data"          # default: <project>/data
+
+[http]
+# Identify yourself to the sites and APIs you query (Wikimedia rejects
+# anonymous clients). Use your own GitHub/profile URL.
+user_agent_name = "ATLAS-internship-research"
+contact_url = "https://github.com/Yousuf6273"
+timeout_s = 20.0
+max_concurrency = 8                  # simultaneous requests overall
+per_domain_min_interval_s = 1.5      # politeness delay per website (robots Crawl-delay may raise it)
+max_retries = 3                      # retries on timeouts / 429 / 5xx, with exponential backoff
+cache_ttl_hours = 72
+
+[crawl]
+max_pages_per_site = 10
+max_depth = 2
+max_companies_to_research = 150      # hard cap per search job
+research_multiplier = 2.5            # research up to target × this many candidates
+company_concurrency = 6
+use_sitemaps = true
+enable_playwright = false            # needs `pip install playwright && playwright install chromium`
+page_refresh_days = 14               # re-use research younger than this
+
+[discovery]
+overpass_endpoints = [
+  "https://overpass-api.de/api/interpreter",
+  "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
+  "https://overpass.private.coffee/api/interpreter",
+]
+overpass_tile_deg = 0.12
+website_resolution = true            # verified name-derived domains for companies without a website
+website_resolution_max = 40
+# searxng_url = "http://localhost:8888"   # only your own instance, with JSON output enabled
+
+[llm]
+enabled = true                       # used only if Ollama is running with the model below
+base_url = "http://localhost:11434"
+model = "qwen2.5:7b-instruct"
+use_for_query_parsing = true
+use_for_company_summary = true
+use_for_draft_polish = false
+
+[scoring]                            # relative weights, normalised to 100 %
+industry = 25
+tasks = 25
+internship = 20
+contact = 15
+geography = 10
+activity = 5
+
+[qualification]
+min_relevance_qualified = 50
+min_relevance_review = 20
+
+[verification]
+dns_timeout_s = 5.0
+check_mx = true
