@@ -1,7 +1,6 @@
-# ATLAS — Internship Intelligence & Outreach Platform
+# ATLAS — Lead Generation Intelligence & Outreach Platform
 
-ATLAS finds real companies in the UAE where a school-age student could realistically do a summer
-placement, researches them from their own websites, explains *why* each one fits (with links to the
+ATLAS finds real companies in the UAE where a school-age student could realistically gain experience it, researches them from their own websites, explains *why* each one fits (with links to the
 evidence), finds legitimate published contact channels, ranks them transparently, drafts personalised
 outreach for you to review, and tracks your conversations.
 
